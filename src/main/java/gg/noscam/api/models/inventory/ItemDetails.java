@@ -36,9 +36,7 @@ public class ItemDetails {
 
     private ExteriorEnum exterior;
 
-    private List<Sticker> stickers;
-
-    private Keychain keychain;
+    private List<ItemAttachment> attachments;
 
     private Instant updatedAt;
 }

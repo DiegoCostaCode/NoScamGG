@@ -1,5 +1,6 @@
 package gg.noscam.api.models.inventory;
 
+import gg.noscam.api.dto.steamWebApi.InventoryAssetInfo;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;
@@ -20,7 +21,7 @@ public class InventorySnapshot {
     @Indexed
     private String steamId;
 
-    private Set<String> assetIds;
+    private Set<InventoryAssetInfo> assetIds;
 
     @Indexed
     private Instant takenAt = Instant.now();

@@ -1,32 +1,27 @@
 package gg.noscam.api.mapper;
 
 import gg.noscam.api.dto.inventory.InventorySnapshotRequestDTO;
-import gg.noscam.api.dto.steam.UserPublicInfoDTO;
-import gg.noscam.api.dto.steamWebApi.InventoryAssetId;
-import gg.noscam.api.dto.user.UserRequestDTO;
+import gg.noscam.api.dto.steamWebApi.InventoryAssetInfo;
 import gg.noscam.api.models.inventory.InventorySnapshot;
-import gg.noscam.api.models.user.enums.EnumUserStatus;
 import org.springframework.stereotype.Component;
 
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @Component
 public class InventoryMapper {
 
     public InventorySnapshotRequestDTO toRequestDTO(
             String steamId,
-            List<InventoryAssetId> assets
+            List<InventoryAssetInfo> inventoryAssetInfos
     ) {
-        Set<String> assetIds = assets.stream()
-                .map(InventoryAssetId::assetid)
-                .collect(Collectors.toSet());
+
+        Set<InventoryAssetInfo> setInventoryAsset = new HashSet<>(inventoryAssetInfos);
 
         return new InventorySnapshotRequestDTO(
                 steamId,
-                assetIds
+                setInventoryAsset
         );
     }
 
@@ -34,7 +29,7 @@ public class InventoryMapper {
         InventorySnapshot snapshot = new InventorySnapshot();
 
         snapshot.setSteamId(dto.steamId());
-        snapshot.setAssetIds(dto.assetsIds());
+        snapshot.setAssetIds(dto.itemsTrivialInfo());
 
         return snapshot;
     }

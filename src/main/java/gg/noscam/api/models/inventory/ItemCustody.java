@@ -7,29 +7,19 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.Instant;
-import java.util.UUID;
 
 @Entity
-@Table(name = "inventory_item")
+@Table(name = "steam_item_custody")
 @Getter
 @Setter
-public class InventoryItem {
+public class ItemCustody {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @Column(name = "asset_id", nullable = false, unique = true)
     private String assetId;
-
-    @Column(name = "app_id", nullable = false)
-    private Integer appId;
-
-    @Column(name = "context_id", nullable = false)
-    private String contextId;
-
-    @Column(name = "market_hash_name", nullable = false)
-    private String marketHashName;
 
     @Column(name = "inspect_link")
     private String inspectLink;
@@ -38,13 +28,7 @@ public class InventoryItem {
     private String currentOwnerSteamId;
 
     @Column(nullable = false)
-    private boolean locked = false;
-
-    @Column(name = "lock_reason")
-    private String lockReason;
-
-    @Column(name = "last_seen_at")
-    private Instant lastSeenAt;
+    private Boolean isTradeLocked = false;
 
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)

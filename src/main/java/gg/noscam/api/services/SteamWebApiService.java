@@ -1,7 +1,8 @@
 package gg.noscam.api.services;
 
 import gg.noscam.api.config.SteamWebApiConfig;
-import gg.noscam.api.dto.steamWebApi.InventoryAssetId;
+import gg.noscam.api.dto.items.ItemDetailsRequestDTO;
+import gg.noscam.api.dto.steamWebApi.InventoryAssetInfo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
@@ -19,7 +20,7 @@ public class SteamWebApiService {
     private final SteamWebApiConfig steamWebApiConfig;
     private final RestTemplate restTemplate;
 
-    public List<InventoryAssetId> retrieveInventorySnapshot(String steamId, String tradeUrl) {
+    public List<InventoryAssetInfo> retrieveInventory(String steamId, String tradeUrl) {
 
         String url = UriComponentsBuilder
                 .fromUriString(steamWebApiConfig.getUrl())
@@ -27,23 +28,43 @@ public class SteamWebApiService {
                 .queryParam("key", steamWebApiConfig.getToken())
                 .queryParam("steam_id", steamId)
                 .queryParam("group", 1)
-                .queryParam("select", "assetid")
+                .queryParam("select", "assetid,inspectlink,tradelocked")
                 .queryParam("with_no_tradable", 1)
                 .queryParam("trade_url", tradeUrl)
+                .queryParam("format", "json")
                 .encode()
                 .toUriString();
 
-        ResponseEntity<List<InventoryAssetId>> response = restTemplate.exchange(
+        ResponseEntity<List<InventoryAssetInfo>> response = restTemplate.exchange(
                 url,
                 HttpMethod.GET,
                 null,
-                new ParameterizedTypeReference<List<InventoryAssetId>>() {}
+                new ParameterizedTypeReference<List<InventoryAssetInfo>>() {}
         );
 
-        List<InventoryAssetId> inventoryAssetIds = response.getBody();
-
-        return inventoryAssetIds;
+        return response.getBody();
     }
 
-    /*,count,wear,rarity,float,quality,color,image,marketable,tradable,tradelocked,inspectlink,isstar,isstattrak*/
+    public ItemDetailsRequestDTO retrieveEnrichmentInfo(String inspectLink) {
+
+        String url = UriComponentsBuilder
+                .fromUriString(steamWebApiConfig.getUrl())
+                .path("/steam/api/float")
+                .queryParam("key", steamWebApiConfig.getToken())
+                .queryParam("url", inspectLink)
+                .queryParam("format", "json")
+                .encode()
+                .toUriString();
+
+        ResponseEntity<ItemDetailsRequestDTO> response = restTemplate.exchange(
+                url,
+                HttpMethod.GET,
+                null,
+                new ParameterizedTypeReference<ItemDetailsRequestDTO>() {}
+        );
+
+        return response.getBody();
+    }
+
+    /*,count,wear,rarity,float,quality,color,image,marketable,tradable,istradelocked,inspectlink,isstar,isstattrak*/
 }
