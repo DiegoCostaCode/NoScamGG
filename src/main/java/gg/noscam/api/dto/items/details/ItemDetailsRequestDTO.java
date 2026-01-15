@@ -1,4 +1,4 @@
-package gg.noscam.api.dto.items;
+package gg.noscam.api.dto.items.details;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

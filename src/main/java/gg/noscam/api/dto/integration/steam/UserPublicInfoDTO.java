@@ -1,4 +1,4 @@
-package gg.noscam.api.dto.steam;
+package gg.noscam.api.dto.integration.steam;
 
 import java.util.List;
 

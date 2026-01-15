@@ -1,8 +1,9 @@
 package gg.noscam.api.mapper;
 
-import gg.noscam.api.dto.steam.UserPublicInfoDTO;
+import gg.noscam.api.dto.integration.steam.UserPublicInfoDTO;
 import gg.noscam.api.dto.user.UserRequestDTO;
 import gg.noscam.api.dto.user.UserResponseDTO;
+import gg.noscam.api.interfaces.IRequestResponseMapper;
 import gg.noscam.api.models.user.User;
 import gg.noscam.api.models.user.UserStatus;
 import gg.noscam.api.models.user.enums.EnumUserStatus;
@@ -11,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class UserMapper {
+public class UserMapper implements IRequestResponseMapper<User, UserRequestDTO, UserResponseDTO> {
 
     @Autowired
     private UserStatusService userStatusService;
@@ -27,6 +28,7 @@ public class UserMapper {
 
     }
 
+    @Override
     public User toEntity(UserRequestDTO dto) {
         User user = new User();
         user.setSteamId(dto.steamId());
@@ -39,26 +41,18 @@ public class UserMapper {
         return user;
     }
 
-    public UserResponseDTO toDTO(User user) {
-
+    @Override
+    public UserResponseDTO toDTO(User entity) {
         return new UserResponseDTO(
-                user.getId(),
-                user.getSteamId(),
-                user.getAvatarBaseUrl(),
-                user.getProfileUrl(),
-                user.getTradeurl(),
-                user.getEmail(),
-                user.getCpf(),
-                user.getStatus().getStatus().toString(),
-                user.getCreatedAt()
+                entity.getId(),
+                entity.getSteamId(),
+                entity.getAvatarBaseUrl(),
+                entity.getProfileUrl(),
+                entity.getTradeurl(),
+                entity.getEmail(),
+                entity.getCpf(),
+                entity.getStatus().getStatus().toString(),
+                entity.getCreatedAt()
         );
     }
-
-
-//    public void updateEntity(User user, UserRequestDTO dto) {
-//        user.setPersonaName(dto.getPersonaName());
-//        user.setAvatarUrl(dto.getAvatarUrl());
-//        user.setProfileUrl(dto.getProfileUrl());
-//        user.setStatus(dto.getStatus());
-//    }
 }

@@ -1,6 +1,6 @@
-package gg.noscam.api.dto.inventory;
+package gg.noscam.api.dto.inventory.snapshots;
 
-import gg.noscam.api.dto.steamWebApi.InventoryAssetInfo;
+import gg.noscam.api.dto.integration.steamWebApi.InventoryAssetInfo;
 
 import java.util.Set;
 

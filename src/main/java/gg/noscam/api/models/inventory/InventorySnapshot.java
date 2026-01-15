@@ -1,6 +1,6 @@
 package gg.noscam.api.models.inventory;
 
-import gg.noscam.api.dto.steamWebApi.InventoryAssetInfo;
+import gg.noscam.api.dto.integration.steamWebApi.InventoryAssetInfo;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;

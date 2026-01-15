@@ -1,4 +1,4 @@
-package gg.noscam.api.dto.items;
+package gg.noscam.api.dto.items.details;
 
 import java.util.List;
 

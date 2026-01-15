@@ -1,4 +1,4 @@
-package gg.noscam.api.dto.items;
+package gg.noscam.api.dto.items.details;
 
 public record ItemAttachmentDTO(
         String id,

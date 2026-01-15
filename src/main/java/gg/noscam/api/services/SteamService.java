@@ -1,7 +1,7 @@
 package gg.noscam.api.services;
 
 import gg.noscam.api.config.SteamConfig;
-import gg.noscam.api.dto.steam.UserPublicInfoDTO;
+import gg.noscam.api.dto.integration.steam.UserPublicInfoDTO;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

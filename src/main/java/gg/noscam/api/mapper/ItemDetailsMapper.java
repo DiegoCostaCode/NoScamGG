@@ -1,8 +1,9 @@
 package gg.noscam.api.mapper;
 
-import gg.noscam.api.dto.items.ItemAttachmentDTO;
-import gg.noscam.api.dto.items.ItemDetailsRequestDTO;
-import gg.noscam.api.dto.items.ItemDetailsResponseDTO;
+import gg.noscam.api.dto.items.details.ItemAttachmentDTO;
+import gg.noscam.api.dto.items.details.ItemDetailsRequestDTO;
+import gg.noscam.api.dto.items.details.ItemDetailsResponseDTO;
+import gg.noscam.api.interfaces.IRequestResponseMapper;
 import gg.noscam.api.models.inventory.ItemAttachment;
 import gg.noscam.api.models.inventory.ItemDetails;
 import gg.noscam.api.models.inventory.enums.ItemAttachementEnum;
@@ -17,21 +18,18 @@ import java.util.List;
 
 @Component
 @RequiredArgsConstructor
-public class ItemDetailsMapper {
+public class ItemDetailsMapper implements IRequestResponseMapper<ItemDetails, ItemDetailsRequestDTO, ItemDetailsResponseDTO> {
 
     private final ItemAttachmentMapper attachmentMapper;
 
+    @Override
     public ItemDetails toEntity(ItemDetailsRequestDTO dto) {
-
         List<ItemAttachment> attachments = new ArrayList<>();
 
         if (dto.stickers() != null) {
             attachments.addAll(
                     dto.stickers().stream()
-                            .map(s -> attachmentMapper.toEntity(
-                                    s,
-                                    ItemAttachementEnum.STICKER
-                            ))
+                            .map(attachmentMapper::createSticker)
                             .toList()
             );
         }
@@ -39,10 +37,7 @@ public class ItemDetailsMapper {
         if (dto.keychans() != null) {
             attachments.addAll(
                     dto.keychans().stream()
-                            .map(k -> attachmentMapper.toEntity(
-                                    k,
-                                    ItemAttachementEnum.KEYCHAIN
-                            ))
+                            .map(attachmentMapper::createKeychain)
                             .toList()
             );
         }
@@ -61,26 +56,26 @@ public class ItemDetailsMapper {
         return details;
     }
 
-    public ItemDetailsResponseDTO toDTO(ItemDetails itemDetails) {
-
-        List<ItemAttachmentDTO> stickers = itemDetails.getAttachments().stream()
+    @Override
+    public ItemDetailsResponseDTO toDTO(ItemDetails entity) {
+        List<ItemAttachmentDTO> stickers = entity.getAttachments().stream()
                 .filter(a -> a.getType() == ItemAttachementEnum.STICKER)
                 .map(attachmentMapper::toDTO)
                 .toList();
 
-        ItemAttachmentDTO keychain = itemDetails.getAttachments().stream()
+        ItemAttachmentDTO keychain = entity.getAttachments().stream()
                 .filter(a -> a.getType() == ItemAttachementEnum.KEYCHAIN)
                 .findFirst()
                 .map(attachmentMapper::toDTO)
                 .orElse(null);
 
         return new ItemDetailsResponseDTO(
-                itemDetails.getFloatvalue(),
-                itemDetails.getWear(),
-                itemDetails.getPattern(),
-                itemDetails.getPaintseed(),
-                itemDetails.getStartTrak(),
-                itemDetails.getRarity().name(),
+                entity.getFloatvalue(),
+                entity.getWear(),
+                entity.getPattern(),
+                entity.getPaintseed(),
+                entity.getStartTrak(),
+                entity.getRarity().name(),
                 stickers,
                 keychain
         );

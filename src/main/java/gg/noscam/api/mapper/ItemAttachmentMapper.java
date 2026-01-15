@@ -1,40 +1,52 @@
 package gg.noscam.api.mapper;
 
-import gg.noscam.api.dto.items.ItemAttachmentDTO;
+import gg.noscam.api.dto.items.details.ItemAttachmentDTO;
+import gg.noscam.api.interfaces.IRequestResponseMapper;
 import gg.noscam.api.models.inventory.ItemAttachment;
 import gg.noscam.api.models.inventory.enums.ItemAttachementEnum;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ItemAttachmentMapper {
+@RequiredArgsConstructor
+public class ItemAttachmentMapper implements IRequestResponseMapper<ItemAttachment, ItemAttachmentDTO, ItemAttachmentDTO> {
 
-    public ItemAttachment toEntity(
-            ItemAttachmentDTO dto,
-            ItemAttachementEnum type
-    ) {
+    @Override
+    public ItemAttachment toEntity(ItemAttachmentDTO dto) {
+        return null;
+    }
+
+    @Override
+    public ItemAttachmentDTO toDTO(ItemAttachment entity) {
+        return new ItemAttachmentDTO(
+                entity.getId(),
+                entity.getName(),
+                entity.getRarity(),
+                entity.getType().name().toLowerCase(),
+                entity.getSlot(),
+                entity.getWear()
+        );
+    }
+
+    private ItemAttachment base(ItemAttachmentDTO dto) {
         ItemAttachment attachment = new ItemAttachment();
-
         attachment.setId(dto.id());
         attachment.setName(dto.name());
         attachment.setRarity(dto.rarity());
-        attachment.setType(type);
-
-        if (type == ItemAttachementEnum.STICKER) {
-            attachment.setSlot(dto.slot());
-            attachment.setWear(dto.wear());
-        }
-
         return attachment;
     }
 
-    public ItemAttachmentDTO toDTO(ItemAttachment attachment) {
-        return new ItemAttachmentDTO(
-                attachment.getId(),
-                attachment.getName(),
-                attachment.getRarity(),
-                attachment.getType().name().toLowerCase(),
-                attachment.getSlot(),
-                attachment.getWear()
-        );
+    public ItemAttachment createSticker(ItemAttachmentDTO dto) {
+        ItemAttachment attachment = base(dto);
+        attachment.setType(ItemAttachementEnum.STICKER);
+        attachment.setSlot(dto.slot());
+        attachment.setWear(dto.wear());
+        return attachment;
+    }
+
+    public ItemAttachment createKeychain(ItemAttachmentDTO dto) {
+        ItemAttachment attachment = base(dto);
+        attachment.setType(ItemAttachementEnum.KEYCHAIN);
+        return attachment;
     }
 }

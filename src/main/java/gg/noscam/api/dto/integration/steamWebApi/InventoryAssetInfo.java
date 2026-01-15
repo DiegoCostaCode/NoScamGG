@@ -1,4 +1,4 @@
-package gg.noscam.api.dto.steamWebApi;
+package gg.noscam.api.dto.integration.steamWebApi;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

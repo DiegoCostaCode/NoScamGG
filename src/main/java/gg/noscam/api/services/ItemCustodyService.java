@@ -1,12 +1,10 @@
 package gg.noscam.api.services;
 
-import gg.noscam.api.dto.items.ItemDetailsResponseDTO;
+import gg.noscam.api.dto.items.details.ItemDetailsResponseDTO;
 import gg.noscam.api.dto.items.custody.ItemCustodyRequestDTO;
 import gg.noscam.api.dto.items.custody.ItemCustodyResponseDTO;
-import gg.noscam.api.mapper.ItemAttachmentMapper;
 import gg.noscam.api.mapper.ItemCustodyMapper;
 import gg.noscam.api.models.inventory.ItemCustody;
-import gg.noscam.api.models.inventory.ItemDetails;
 import gg.noscam.api.repositories.ItemCustodyReposity;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -35,7 +33,7 @@ public class ItemCustodyService {
 
         ItemDetailsResponseDTO itemDetailsDTO = itemADetailsService.getItemInfo(itemCustody.getInspectLink());
 
-        return itemCustodyMapper.toDTO(itemCustody, itemDetailsDTO);
+        return itemCustodyMapper.toCompositeDTO(itemCustody, itemDetailsDTO);
     }
 
 }

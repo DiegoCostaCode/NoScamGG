@@ -1,8 +1,8 @@
 package gg.noscam.api.services;
 
-import gg.noscam.api.dto.inventory.InventorySnapshotRequestDTO;
-import gg.noscam.api.dto.steamWebApi.InventoryAssetInfo;
-import gg.noscam.api.mapper.InventoryMapper;
+import gg.noscam.api.dto.inventory.snapshots.InventorySnapshotRequestDTO;
+import gg.noscam.api.dto.integration.steamWebApi.InventoryAssetInfo;
+import gg.noscam.api.mapper.InventorySnapshotMapper;
 import gg.noscam.api.models.inventory.InventorySnapshot;
 import gg.noscam.api.repositories.InventorySnapshotRepository;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +16,7 @@ import java.util.List;
 public class InventorySnapshotService {
 
     @Autowired
-    private InventoryMapper inventoryMapper;
+    private InventorySnapshotMapper inventorySnapshotMapper;
 
     @Autowired
     private final InventorySnapshotRepository inventorySnapshotRepository;
@@ -26,7 +26,7 @@ public class InventorySnapshotService {
 
     public InventorySnapshot saveSnapshot(InventorySnapshotRequestDTO inventorySnapshotRequestDTO) {
 
-        InventorySnapshot inventorySnap = inventoryMapper.toEntity(inventorySnapshotRequestDTO);
+        InventorySnapshot inventorySnap = inventorySnapshotMapper.toEntity(inventorySnapshotRequestDTO);
 
         return inventorySnapshotRepository.save(inventorySnap);
     };
@@ -35,7 +35,7 @@ public class InventorySnapshotService {
 
         List<InventoryAssetInfo> inventorySnapshot = steamWebApiService.retrieveInventory(steamId, tradeUrl);
 
-        InventorySnapshotRequestDTO inventorySnapRequestDTO = inventoryMapper.toRequestDTO(steamId, inventorySnapshot);
+        InventorySnapshotRequestDTO inventorySnapRequestDTO = inventorySnapshotMapper.toRequestDTO(steamId, inventorySnapshot);
 
         return saveSnapshot(inventorySnapRequestDTO);
     }

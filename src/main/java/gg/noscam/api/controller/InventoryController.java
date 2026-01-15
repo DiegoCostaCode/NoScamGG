@@ -2,7 +2,7 @@ package gg.noscam.api.controller;
 
 
 import gg.noscam.api.dto.items.custody.ItemCustodyRequestDTO;
-import gg.noscam.api.dto.steamWebApi.InventoryAssetInfo;
+import gg.noscam.api.dto.integration.steamWebApi.InventoryAssetInfo;
 import gg.noscam.api.models.inventory.InventorySnapshot;
 import gg.noscam.api.services.InventorySnapshotService;
 import gg.noscam.api.services.ItemCustodyService;

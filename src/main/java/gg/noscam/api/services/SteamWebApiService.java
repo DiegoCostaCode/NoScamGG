@@ -1,8 +1,8 @@
 package gg.noscam.api.services;
 
 import gg.noscam.api.config.SteamWebApiConfig;
-import gg.noscam.api.dto.items.ItemDetailsRequestDTO;
-import gg.noscam.api.dto.steamWebApi.InventoryAssetInfo;
+import gg.noscam.api.dto.items.details.ItemDetailsRequestDTO;
+import gg.noscam.api.dto.integration.steamWebApi.InventoryAssetInfo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;

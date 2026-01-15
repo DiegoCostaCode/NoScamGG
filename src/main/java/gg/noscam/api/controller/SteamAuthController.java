@@ -1,6 +1,6 @@
 package gg.noscam.api.controller;
 
-import gg.noscam.api.dto.steam.UserPublicInfoDTO;
+import gg.noscam.api.dto.integration.steam.UserPublicInfoDTO;
 import gg.noscam.api.dto.user.UserResponseDTO;
 import gg.noscam.api.services.SteamService;
 import gg.noscam.api.services.UserService;
