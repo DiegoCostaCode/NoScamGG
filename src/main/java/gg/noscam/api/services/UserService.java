@@ -1,0 +1,39 @@
+package gg.noscam.api.services;
+
+import gg.noscam.api.dto.steam.UserPublicInfoDTO;
+import gg.noscam.api.dto.user.UserRequestDTO;
+import gg.noscam.api.dto.user.UserResponseDTO;
+import gg.noscam.api.mapper.UserMapper;
+import gg.noscam.api.models.user.User;
+import gg.noscam.api.models.user.enums.EnumUserStatus;
+import gg.noscam.api.repositories.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+@Service
+public class UserService {
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private UserMapper userMapper;
+
+    public UserResponseDTO saveUser(UserRequestDTO userRequestDTO) {
+
+        User user = userMapper.toEntity(userRequestDTO);
+
+        User userSaved = userRepository.save(user);
+
+        return userMapper.toDTO(userSaved);
+    }
+
+    public UserResponseDTO createUser(UserPublicInfoDTO steamInfosDTO){
+
+        UserPublicInfoDTO.SteamPlayer player = steamInfosDTO.response().players().getFirst();
+
+        UserRequestDTO userReqDTO = userMapper.toRequestDTO(player, EnumUserStatus.RESTRICTED);
+
+        return saveUser(userReqDTO);
+    }
+}
