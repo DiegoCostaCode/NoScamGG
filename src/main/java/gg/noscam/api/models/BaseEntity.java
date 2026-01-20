@@ -1,4 +1,4 @@
-package gg.noscam.api.models.inventory;
+package gg.noscam.api.models;
 
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -8,27 +8,14 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.Instant;
 
-@Entity
-@Table(name = "steam_item_custody")
+@MappedSuperclass
 @Getter
 @Setter
-public class ItemCustody {
+public abstract class BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Column(name = "asset_id", nullable = false, unique = true)
-    private String assetId;
-
-    @Column(name = "inspect_link")
-    private String inspectLink;
-
-    @Column(name = "current_owner_steamid")
-    private String currentOwnerSteamId;
-
-    @Column(nullable = false)
-    private Boolean isTradeLocked = false;
 
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)

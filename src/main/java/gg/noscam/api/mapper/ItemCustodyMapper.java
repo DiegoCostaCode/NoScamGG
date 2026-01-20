@@ -5,7 +5,7 @@ import gg.noscam.api.dto.items.custody.ItemCustodyRequestDTO;
 import gg.noscam.api.dto.items.custody.ItemCustodyResponseDTO;
 import gg.noscam.api.dto.items.custody.ItemCustodyWithDetailsResponseDTO;
 import gg.noscam.api.interfaces.IRequestResponseMapper;
-import gg.noscam.api.models.inventory.ItemCustody;
+import gg.noscam.api.models.itemCustody.ItemCustody;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

@@ -1,10 +1,11 @@
 package gg.noscam.api.services;
 
+import gg.noscam.api.dto.items.custody.ItemCustodyWithDetailsResponseDTO;
 import gg.noscam.api.dto.items.details.ItemDetailsResponseDTO;
 import gg.noscam.api.dto.items.custody.ItemCustodyRequestDTO;
 import gg.noscam.api.dto.items.custody.ItemCustodyResponseDTO;
 import gg.noscam.api.mapper.ItemCustodyMapper;
-import gg.noscam.api.models.inventory.ItemCustody;
+import gg.noscam.api.models.itemCustody.ItemCustody;
 import gg.noscam.api.repositories.ItemCustodyReposity;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +26,7 @@ public class ItemCustodyService {
     private final ItemCustodyReposity itemCustodyReposity;
 
     @Transactional
-    public ItemCustodyResponseDTO registerItemCustody(ItemCustodyRequestDTO itemDTO){
+    public ItemCustodyWithDetailsResponseDTO registerItemCustody(ItemCustodyRequestDTO itemDTO){
 
         ItemCustody itemCustody = itemCustodyReposity.save(
                 itemCustodyMapper.toEntity(itemDTO)

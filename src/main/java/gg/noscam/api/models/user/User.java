@@ -1,5 +1,6 @@
 package gg.noscam.api.models.user;
 
+import gg.noscam.api.models.BaseEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -10,11 +11,7 @@ import java.time.Instant;
 @Getter
 @Setter
 @Table(name = "users")
-public class User {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class User extends BaseEntity {
 
     @Column(name="steam_id", nullable = false, unique = true)
     private String steamId;
