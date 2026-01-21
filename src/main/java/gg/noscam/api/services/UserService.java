@@ -2,13 +2,14 @@ package gg.noscam.api.services;
 
 import gg.noscam.api.dto.integration.steam.UserPublicInfoDTO;
 import gg.noscam.api.dto.user.UserRequestDTO;
-import gg.noscam.api.dto.user.UserResponseDTO;
 import gg.noscam.api.mapper.UserMapper;
 import gg.noscam.api.models.user.User;
 import gg.noscam.api.models.user.enums.EnumUserStatus;
 import gg.noscam.api.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -19,18 +20,29 @@ public class UserService {
     @Autowired
     private UserMapper userMapper;
 
-    public UserResponseDTO saveUser(UserRequestDTO userRequestDTO) {
+    @Autowired
+    private SteamService steamService;
+
+
+    public User saveUser(UserRequestDTO userRequestDTO) {
 
         User user = userMapper.toEntity(userRequestDTO);
 
-        User userSaved = userRepository.save(user);
-
-        return userMapper.toDTO(userSaved);
+        return userRepository.save(user);
     }
 
-    public UserResponseDTO createUser(UserPublicInfoDTO steamInfosDTO){
+    public User findOrCreateUser(String openId){
 
-        UserPublicInfoDTO.SteamPlayer player = steamInfosDTO.response().players().getFirst();
+        Optional<User> user = userRepository.findBySteamId(openId);
+
+        if (user.isPresent()){
+            return user.get();
+        }
+
+        UserPublicInfoDTO.SteamPlayer player = steamService.findPublicInfosFromOpenId(openId)
+                .response()
+                .players()
+                .getFirst();
 
         UserRequestDTO userReqDTO = userMapper.toRequestDTO(player, EnumUserStatus.RESTRICTED);
 
